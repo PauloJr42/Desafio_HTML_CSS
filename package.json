@@ -1,0 +1,19 @@
+{
+  "name": "desafio_html_css",
+  "version": "1.0.0",
+  "description": "Desafio de projeto: Pratica em Type Script",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PauloJr42/Desafio_HTML_CSS.git"
+  },
+  "author": "Paulo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PauloJr42/Desafio_HTML_CSS/issues"
+  },
+  "homepage": "https://github.com/PauloJr42/Desafio_HTML_CSS#readme"
+}
