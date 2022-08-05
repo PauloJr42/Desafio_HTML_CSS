@@ -1,3 +1,5 @@
+'use strict';
+
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -15,27 +17,28 @@ let searchButton = document.getElementById('search-button');
 let searchContainer = document.getElementById('search-container');
 let apikey = document.getElementById('api-key');
 let titlefilm = document.getElementById('p-titlefilm');
-//input login - receiving value validate login button
+
+
 function preencherLogin() {
     let login = document.getElementById('login');
     username = login.value;
     console.log(username);
     validateLoginButton();
 }
-//input password - receiving value validate login button
+
 function preencherSenha() {
     let senha = document.getElementById('senha');
     password = senha.value;
     console.log(password);
     validateLoginButton();
 }
-//input apikey - receiving value validate login button
+
 function preencherApi() {
     apiKey = apikey.value;
     console.log(apiKey);
     validateLoginButton();
 }
-//validate login button
+
 function validateLoginButton() {
     if ((password = senha.value) && (username = login.value) && (apiKey = apikey.value)) {
         searchButton.disabled = false;     
@@ -44,7 +47,7 @@ function validateLoginButton() {
         searchButton.disabled = true;
     }
 }
-//method Search Films in API
+
 function procurarFilme(query) {
     return __awaiter(this, void 0, void 0, function* () {
         query = encodeURI(query);
@@ -56,7 +59,7 @@ function procurarFilme(query) {
         return result;
     });
 }
-// fill container with list of movies
+
 if (searchButton) {
     searchButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
         let listasearch = document.getElementById("listasearch");
@@ -66,7 +69,6 @@ if (searchButton) {
         }
         let query = document.getElementById('search');
         let listaDeFilmes = yield procurarFilme(query.value);
-        // let ul = document.createElement('ul');
         let div = document.createElement('div');
         div.id = "listasearch";
         for (const item of listaDeFilmes.results) {
@@ -89,13 +91,7 @@ if (searchButton) {
             a.appendChild(p);
             div.appendChild(a);
         }
-        if (titlefilm) {
-            titlefilm.hidden = false;
-        }
-        console.log(listaDeFilmes);
-        if (searchContainer) {
-            searchContainer.appendChild(div);
-        }
+       
     }));
 }
 //fill body of site
