@@ -1,15 +1,15 @@
 
 //RESPOSTA
 
-let apiKey : string ;
+let apiKey : string = '2d65c5581f74742a7a75810da655e0e6';
 let username: string;
-let senha1: string;
+let password: string;
 
-let botaologin = document.getElementById('login-button') as HTMLButtonElement;
-let botaoProcura = document.getElementById('search-button') as HTMLButtonElement;
-let blocoProcura = document.getElementById('search-container');
+let loginButton = document.getElementById('login-button') as HTMLButtonElement;
+let searchButton = document.getElementById('search-button') as HTMLButtonElement;
+let searchContainer = document.getElementById('search-container');
 let apikey = document.getElementById('api-key') as HTMLInputElement;
-let titulo: any = document.getElementById('p-titlefilm');
+let titlefilm = document.getElementById('p-titlefilm';)
 
 //input login - receiving value validate login button
 function preencherLogin() {
@@ -21,8 +21,8 @@ function preencherLogin() {
 
 //input password - receiving value validate login button
 function preencherSenha() {
-    let senha2 = document.getElementById('senha') as HTMLInputElement;
-    senha1 = senha2.value;
+    let senha = document.getElementById('senha') as HTMLInputElement;
+    password = senha.value;
     validateLoginButton();
 }
 
@@ -36,11 +36,11 @@ function preencherApi() {
 
 //validate login button
 function validateLoginButton() {
-    if (senha1 && username && apiKey) {
-        botaologin.disabled = false;
+    if (password && username && apiKey) {
+        loginButton.disabled = false;
 //        apikey.value = apiKey  
     } else {
-        botaologin.disabled = true;
+        loginButton.disabled = true;
     }
 }
 
@@ -58,16 +58,16 @@ async function procurarFilme(query:string) {
 
 
 // fill container with list of movies
-if (botaoProcura){
-    botaoProcura.addEventListener('click', async () => {
+if (searchButton){
+    searchButton.addEventListener('click', async () => {
         let listasearch = document.getElementById("listasearch");
         if (listasearch) {
             listasearch.outerHTML = "";
-            titulo.hidden=true;
+            titlefilm.hidden=true;
         }
 
         let query = document.getElementById('search') as HTMLInputElement;
-        let listaDeFilmes: any = await procurarFilme(query.value);
+        let listaDeFilmes = await procurarFilme(query.value);
        // let ul = document.createElement('ul');
 
        let div = document.createElement('div');
@@ -101,21 +101,21 @@ if (botaoProcura){
 
         }
 
-        if (titulo){
-            titulo.hidden=false;
+        if (titlefilm){
+            titlefilm.hidden=false;
         }
         
 
         console.log(listaDeFilmes);
-        if(blocoProcura){
-            blocoProcura.appendChild(div);
+        if(searchContainer){
+            searchContainer.appendChild(div);
         }
     })
 }
 
 //fill body of site
 class HttpClient {
-    static async get({url , method="GET", body = "0"}) {
+    static async get({url , method, body = null}) {
         return new Promise((resolve, reject) => {
         let request = new XMLHttpRequest();
         request.open(method, url, true);

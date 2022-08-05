@@ -1,46 +1,47 @@
-
-
-
-
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 let apiKey;
 let username;
-let senha1;
-let Botaologin = document.getElementById('botaoLogin');
-let BotaoProcura = document.getElementById('botaoProcura');
-let BlocoProcura = document.getElementById('blocoProcura');
+let password;
+let loginButton = document.getElementById('login-button');
+let searchButton = document.getElementById('search-button');
+let searchContainer = document.getElementById('search-container');
 let apikey = document.getElementById('api-key');
-let Titulo = document.getElementById('p-Titulo');
-
-
-
-/*PRENCHIMENTO
-    LOGIN*/
+let titlefilm = document.getElementById('p-titlefilm');
+//input login - receiving value validate login button
 function preencherLogin() {
     let login = document.getElementById('login');
     username = login.value;
+    console.log(username);
     validateLoginButton();
 }
-
-
-/*PRENCHIMENTO
-     SENHA*/
+//input password - receiving value validate login button
 function preencherSenha() {
-    let senha2 = document.getElementById('senha2');
-    senha1 = senha2.value;
+    let senha = document.getElementById('senha');
+    password = senha.value;
+    console.log(password);
     validateLoginButton();
 }
 //input apikey - receiving value validate login button
 function preencherApi() {
     apiKey = apikey.value;
+    console.log(apiKey);
     validateLoginButton();
 }
 //validate login button
 function validateLoginButton() {
-    if (senha1 && username && apiKey) {
-        Botaologin.disabled = false;
+    if ((password = senha.value) && (username = login.value) && (apiKey = apikey.value)) {
+        searchButton.disabled = false;     
     }
     else {
-        Botaologin.disabled = true;
+        searchButton.disabled = true;
     }
 }
 //method Search Films in API
@@ -56,44 +57,44 @@ function procurarFilme(query) {
     });
 }
 // fill container with list of movies
-if (BotaoProcura) {
-    BotaoProcura.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
-        let ListaProcura = document.getElementById("listaProcura");
-        if (ListaProcura) {
-            ListaProcura.outerHTML = "";
-            Titulo.hidden = true;
+if (searchButton) {
+    searchButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        let listasearch = document.getElementById("listasearch");
+        if (listasearch) {
+            listasearch.outerHTML = "";
+            titlefilm.hidden = true;
         }
         let query = document.getElementById('search');
-        let listaFilmes = yield procurarFilme(query.value);
+        let listaDeFilmes = yield procurarFilme(query.value);
         // let ul = document.createElement('ul');
         let div = document.createElement('div');
         div.id = "listasearch";
-        for (const item of listaFilmes.results) {
-            let i = document.createElement('i');
-            let imagem = document.createElement('img');
+        for (const item of listaDeFilmes.results) {
+            let p = document.createElement('p');
+            let img = document.createElement('img');
             let a = document.createElement('a');
             let imglink = `https://image.tmdb.org/t/p/w500/` + item.poster_path;
             div.setAttribute("style", "display:flex; flex-direction:column; align-content:center;");
-            imagem.setAttribute("src", imglink);
-            imagem.setAttribute("style", "border: solid 1px #000; float: left; margin-right:10px;");
-            imagem.height = 90;
-            i.setAttribute("href", imglink);
-            i.setAttribute("target", "_blank");
-            i.setAttribute("title", "click to see enlarged image");
-            i.setAttribute("style", " line-height:100px; float: left; font-size:12px; font-family: Arial, Helvetica, sans-serif; color:#000;");
+            img.setAttribute("src", imglink);
+            img.setAttribute("style", "border: solid 1px #000; float: left; margin-right:10px;");
+            img.height = 90;
+            a.setAttribute("href", imglink);
+            a.setAttribute("target", "_blank");
+            p.setAttribute("title", "click to see enlarged image");
+            p.setAttribute("style", " line-height:100px; float: left; font-size:12px; font-family: Arial, Helvetica, sans-serif; color:#000;");
             document.body.appendChild(div);
-            document.body.appendChild(i);
-            i.appendChild(imagem);
-            //i.appendChild(document.createTextNode(item.original_title + '  |  id.(' + item.id + ')'));
-            i.appendChild(i);
-            div.appendChild(i);
+            document.body.appendChild(a);
+            p.appendChild(img);
+            p.appendChild(document.createTextNode(item.original_title + '  |  id.(' + item.id + ')'));
+            a.appendChild(p);
+            div.appendChild(a);
         }
-        if (Titulo) {
-            Titulo.hidden = false;
+        if (titlefilm) {
+            titlefilm.hidden = false;
         }
-        console.log(listaFilmes);
-        if (BlocoProcura) {
-            BlocoProcura.appendChild(div);
+        console.log(listaDeFilmes);
+        if (searchContainer) {
+            searchContainer.appendChild(div);
         }
     }));
 }
@@ -102,30 +103,30 @@ class HttpClient {
     static get({ url, method, body = null }) {
         return __awaiter(this, void 0, void 0, function* () {
             return new Promise((resolve, reject) => {
-                let requer = new XMLHttpRequest();
-                requer.open(method, url, true);
-                requer.onload = () => {
-                    if (requer.status >= 200 && requer.status < 300) {
-                        resolve(JSON.parse(requer.responseText));
+                let request = new XMLHttpRequest();
+                request.open(method, url, true);
+                request.onload = () => {
+                    if (request.status >= 200 && request.status < 300) {
+                        resolve(JSON.parse(request.responseText));
                     }
                     else {
                         reject({
-                            status: requer.status,
-                            statusText: requer.statusText
+                            status: request.status,
+                            statusText: request.statusText
                         });
                     }
                 };
-                requer.onerror = () => {
+                request.onerror = () => {
                     reject({
-                        status: requer.status,
-                        statusText: requer.statusText
+                        status: request.status,
+                        statusText: request.statusText
                     });
                 };
                 if (body) {
-                    requer.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+                    request.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
                     body = JSON.stringify(body);
                 }
-                requer.send(body);
+                request.send(body);
             });
         });
     }
