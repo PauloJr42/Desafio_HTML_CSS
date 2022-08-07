@@ -9,7 +9,7 @@ let loginButton = document.getElementById('login-button') as HTMLButtonElement;
 let searchButton = document.getElementById('search-button') as HTMLButtonElement;
 let searchContainer = document.getElementById('search-container');
 let apikey = document.getElementById('api-key') as HTMLInputElement;
-let titlefilm = document.getElementById('p-titlefilm';)
+let titlefilm = document.getElementById('p-titlefilm');
 
 //input login - receiving value validate login button
 function preencherLogin() {
