@@ -33,12 +33,14 @@ let password = "Nuttere@2021";
 let sessionId;
 let descricao;
 let nomeDaLista;
+let media_id;
 let listId;
 
 let loginButton = document.getElementById('login-button');
 let searchButton = document.getElementById('search-button');
 let searchContainer = document.getElementById('search-container');
 let listButton = document.getElementById('list-button');
+let addButton = document.getElementById('add-button');
 
 
 function preencherSenha() {
@@ -259,15 +261,27 @@ async function criarLista() {
  language: "pt-br"
  }
  })
- console.log(result);
+ listId = result.list_id;
+ console.log(listId);
+
 }
 
-async function adicionarFilmeNaLista(filmeId, listaId) {
+function preencherMediaid() {
+    media_id = document.getElementById('media-id').value;
+    console.log(media_id);
+
+   }
+
+   addButton.addEventListener('click', async () => {
+    await adicionarFilmeNaLista();
+    })
+
+async function adicionarFilmeNaLista() {
  let result = await HttpClient.get({
- url: `https://api.themoviedb.org/3/list/${listaId}/add_item?api_key=${apikey}&session_id=${sessionId}`,
+ url: `https://api.themoviedb.org/3/list/${listId}/add_item?api_key=${apikey}&session_id=${sessionId}`,
  method: "POST",
  body: {
- media_id: filmeId
+ media_id: `${media_id}`,
  }
  })
  console.log(result);
