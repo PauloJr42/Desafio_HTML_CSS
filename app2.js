@@ -12,18 +12,33 @@
 // Atenção para o listener do botão login-button que devolve o sessionID do usuário
 // É necessário fazer um cadastro no https://www.themoviedb.org/ e seguir a documentação do site para entender como gera uma 
 //API key https://developers.themoviedb.org/3/getting-started/introduction
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 
-var apiKey;
+
+
+
+var apiKey = "eed437133c744ed195e6622d61cd2585";
 let apikey;
 let requestToken;
-let username;
-let password;
+let username = "paulosraiva@hotmail.com";
+let password = "Nuttere@2021";
 let sessionId;
+let descricao;
+let nomeDaLista;
 let listId;
 
 let loginButton = document.getElementById('login-button');
 let searchButton = document.getElementById('search-button');
 let searchContainer = document.getElementById('search-container');
+let listButton = document.getElementById('list-button');
 
 
 function preencherSenha() {
@@ -128,7 +143,7 @@ class HttpClient {
  }
 }
 
-searchButton.addEventListener('click', async () => {
+/*searchButton.addEventListener('click', async () => {
     let lista = document.getElementById("lista");
     if (lista) {
     lista.outerHTML = "";
@@ -144,9 +159,57 @@ searchButton.addEventListener('click', async () => {
     }
     console.log(listaDeFilmes);
     searchContainer.appendChild(ul);
-   })
+   })*/
 
-async function procurarFilme(query) {
+   function procurarFilme(query) {
+    return __awaiter(this, void 0, void 0, function* () {
+        query = encodeURI(query);
+        console.log(query);
+        let result = yield HttpClient.get({
+            url: `https://api.themoviedb.org/3/search/movie?api_key=${apikey}&query=${query}`,
+            method: "GET"
+        });
+        return result;
+    });
+}
+
+if (searchButton) {
+    searchButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
+        let listasearch = document.getElementById("listasearch");
+        if (listasearch) {
+            listasearch.outerHTML = "";
+            titlefilm.hidden = true;
+        }
+        let query = document.getElementById('search');
+        let listaDeFilmes = yield procurarFilme(query.value);
+        let div = document.createElement('div');
+        div.id = "listasearch";
+        for (const item of listaDeFilmes.results) {
+            let p = document.createElement('p');
+            let img = document.createElement('img');
+            let a = document.createElement('a');
+            let imglink = `https://image.tmdb.org/t/p/w500/` + item.poster_path;
+            div.setAttribute("style", "display:flex; flex-direction:column; align-content:center;");
+            img.setAttribute("src", imglink);
+            img.setAttribute("style", "border: solid 1px #000; float: left; margin-right:10px;");
+            img.height = 90;
+            a.setAttribute("href", imglink);
+            a.setAttribute("target", "_blank");
+            p.setAttribute("title", "click to see enlarged image");
+            p.setAttribute("style", " line-height:100px; float: left; font-size:12px; font-family: Arial, Helvetica, sans-serif; color:#000;");
+            document.body.appendChild(div);
+            document.body.appendChild(a);
+            p.appendChild(img);
+            p.appendChild(document.createTextNode(item.original_title + '  |  id.(' + item.id + ')'));
+            a.appendChild(p);
+            div.appendChild(a);
+        }
+       
+    }));
+}
+
+
+/*async function procurarFilme(query) {
  query = encodeURI(query)
  console.log(query)
  let result = await HttpClient.get({
@@ -154,7 +217,7 @@ async function procurarFilme(query) {
  method: "GET"
  })
  return result
-}
+}*/
 
 async function adicionarFilme(filmeId) {
  let result = await HttpClient.get({
@@ -165,18 +228,34 @@ async function adicionarFilme(filmeId) {
 }
 
 
+function preencherName() {
+    nomeDaLista = document.getElementById('name-list').value;
+    console.log(nomeDaLista);
+
+   }
+   
+
+function preencherDescricao() {
+    descricao = document.getElementById('description-list').value;
+    console.log(descricao);
+
+   }
+   
+
+
+listButton.addEventListener('click', async () => {
+    await criarLista();
+    })
 
 
 
-
-
-async function criarLista(nomeDaLista, descricao) {
+async function criarLista() {
  let result = await HttpClient.get({
  url: `https://api.themoviedb.org/3/list?api_key=${apikey}&session_id=${sessionId}`,
  method: "POST",
  body: {
- name: nomeDaLista,
- description: descricao,
+ name: `${nomeDaLista}`,
+ description: `${descricao}`,
  language: "pt-br"
  }
  })
