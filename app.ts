@@ -12,35 +12,28 @@
 // Atenção para o listener do botão login-button que devolve o sessionID do usuário
 // É necessário fazer um cadastro no https://www.themoviedb.org/ e seguir a documentação do site para entender como gera uma 
 //API key https://developers.themoviedb.org/3/getting-started/introduction
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
+
+
 
 
 
 
 var apiKey: any;
 let apikey: any;
-let requestToken: string;
-let username: any;
-let password: any;
-let sessionId: string;
-let descricao: string;
-let nomeDaLista: string;
-let media_id: number;
-let listId: string;
+let requestToken: any;
+let username: any ;
+let password: any ;
+let sessionId: any;
+let descricao: any;
+let nomeDaLista: any;
+let media_id: any;
+let listId: any;
 
-let loginButton = document.getElementById('login-button');
-let searchButton = document.getElementById('search-button');
-let searchContainer = document.getElementById('search-container');
-let listButton = document.getElementById('list-button');
-let addButton = document.getElementById('add-button');
+let loginButton: any = document.getElementById('login-button');
+let searchButton: any = document.getElementById('search-button');
+let searchContainer: any = document.getElementById('search-container');
+let listButton: any = document.getElementById('list-button');
+let addButton: any = document.getElementById('add-button');
 
 
 function preencherSenha() {
@@ -78,7 +71,7 @@ loginButton.addEventListener('click', async () => {
     })
 
 async function criarRequestToken () {
-    let result = await HttpClient.get({
+    let result: any = await HttpClient.get({
     url: `https://api.themoviedb.org/3/authentication/token/new?api_key=${apiKey}`,
     method: "GET"
     })
@@ -100,7 +93,7 @@ async function criarRequestToken () {
    }
 
    async function criarSessao() {
-    let result = await HttpClient.get({
+    let result: any = await HttpClient.get({
     url: `https://api.themoviedb.org/3/authentication/session/new?api_key=${apiKey}`,
     method: "POST",
     body: {
@@ -145,73 +138,30 @@ class HttpClient {
  }
 }
 
-/*searchButton.addEventListener('click', async () => {
+searchButton.addEventListener('click', async () => {
     let lista = document.getElementById("lista");
     if (lista) {
     lista.outerHTML = "";
     }
-    let query = document.getElementById('search').value;
-    let listaDeFilmes = await procurarFilme(query);
+    let query = document.getElementById('search');
+    let listaDeFilmes: any = await procurarFilme(query);
     let ul = document.createElement('ul');
     ul.id = "lista"
     for (const item of listaDeFilmes.results) {
     let li = document.createElement('li');
-    li.appendChild(document.createTextNode(item.original_title))
+    li.appendChild(document.createTextNode(item.original_title + "  "))
+    ul.appendChild(li)
+    li.appendChild(document.createTextNode("ID: " + item.id))
     ul.appendChild(li)
     }
     console.log(listaDeFilmes);
     searchContainer.appendChild(ul);
-   })*/
-
-   function procurarFilme(query) {
-    return __awaiter(this, void 0, void 0, function* () {
-        query = encodeURI(query);
-        console.log(query);
-        let result = yield HttpClient.get({
-            url: `https://api.themoviedb.org/3/search/movie?api_key=${apikey}&query=${query}`,
-            method: "GET"
-        });
-        return result;
-    });
-}
-
-if (searchButton) {
-    searchButton.addEventListener('click', () => __awaiter(void 0, void 0, void 0, function* () {
-        let listasearch = document.getElementById("listasearch");
-        if (listasearch) {
-            listasearch.outerHTML = "";
-            titlefilm.hidden = true;
-        }
-        let query = document.getElementById('search');
-        let listaDeFilmes = yield procurarFilme(query.value);
-        let div = document.createElement('div');
-        div.id = "listasearch";
-        for (const item of listaDeFilmes.results) {
-            let p = document.createElement('p');
-            let img = document.createElement('img');
-            let a = document.createElement('a');
-            let imglink = `https://image.tmdb.org/t/p/w500/` + item.poster_path;
-            div.setAttribute("style", "display:flex; flex-direction:column; align-content:center;");
-            img.setAttribute("src", imglink);
-            img.setAttribute("style", "border: solid 1px #000; float: left; margin-right:10px;");
-            img.height = 90;
-            a.setAttribute("href", imglink);
-            a.setAttribute("target", "_blank");
-            p.setAttribute("title", "click to see enlarged image");
-            p.setAttribute("style", " line-height:100px; float: left; font-size:12px; font-family: Arial, Helvetica, sans-serif; color:#000;");
-            document.body.appendChild(div);
-            document.body.appendChild(a);
-            p.appendChild(img);
-            p.appendChild(document.createTextNode(item.original_title + '  |  id.(' + item.id + ')'));
-            a.appendChild(p);
-            div.appendChild(a);
-        }
-       
-    }));
-}
+   })
 
 
-/*async function procurarFilme(query) {
+
+
+async function procurarFilme(query: any) {
  query = encodeURI(query)
  console.log(query)
  let result = await HttpClient.get({
@@ -219,26 +169,26 @@ if (searchButton) {
  method: "GET"
  })
  return result
-}*/
+}
 
-async function adicionarFilme(filmeId) {
+/*async function adicionarFilme(filmeId) {
  let result = await HttpClient.get({
  url: `https://api.themoviedb.org/3/movie/${filmeId}?api_key=${apikey}&language=en-US`,
  method: "GET"
  })
  console.log(result);
-}
+}*/
 
 
 function preencherName() {
-    nomeDaLista = document.getElementById('name-list').value;
+    nomeDaLista = document.getElementById('name-list');
     console.log(nomeDaLista);
 
    }
    
 
 function preencherDescricao() {
-    descricao = document.getElementById('description-list').value;
+    descricao = document.getElementById('description-list');
     console.log(descricao);
 
    }
@@ -252,7 +202,7 @@ listButton.addEventListener('click', async () => {
 
 
 async function criarLista() {
- let result = await HttpClient.get({
+ let result: any = await HttpClient.get({
  url: `https://api.themoviedb.org/3/list?api_key=${apikey}&session_id=${sessionId}`,
  method: "POST",
  body: {
@@ -267,7 +217,7 @@ async function criarLista() {
 }
 
 function preencherMediaid() {
-    media_id = document.getElementById('media-id').value;
+    media_id = document.getElementById('media-id');
     console.log(media_id);
 
    }
@@ -295,15 +245,4 @@ async function pegarLista() {
  console.log(result);
 }
 
-{/* <div style="display: flex;">
- <div style="display: flex; width: 300px; height: 100px; justify-content: space-between; flex-direction: column;">
- <input id="login" placeholder="Login" onchange="preencherLogin(event)">
- <input id="senha" placeholder="Senha" type="password" onchange="preencherSenha(event)">
- <input id="api-key" placeholder="Api Key" onchange="preencherApi()">
- <button id="login-button" disabled>Login</button>
- </div>
- <div id="search-container" style="margin-left: 20px">
- <input id="search" placeholder="Escreva...">
- <button id="search-button">Pesquisar Filme</button>
- </div>
-</div>*/}
+
