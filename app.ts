@@ -251,14 +251,18 @@ async function adicionarFilmeNaLista() {
  console.log(result);
 }
 
-async function pegarLista() {
+/*Como essa parte nao estava dentro 
+dos requisitos pedidos no desafio
+fins não! Mão inchada ja...*/
+
+/*async function pegarLista() {
  let result = await HttpClient.get({
  url: `https://api.themoviedb.org/3/list/${listId}?api_key=${apikey}`,
  method: "GET",
  body:{}
  })
  console.log(result);
-}
+}*/
 
 
 
